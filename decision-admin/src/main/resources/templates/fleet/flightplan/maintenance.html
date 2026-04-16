@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('计划维修方案生成')" />
+</head>
+<body class="gray-bg">
+    <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="maintenance-form">
+                    <div class="select-list">
+                        <ul>
+                            <li>任务提前发布时间：<input type="text" class="time-input" id="publishAheadDays" name="publishAheadDays" placeholder="天"/></li>
+                            <li>平均日利用率h：<input type="text" name="avgUtilH"/></li>
+                            <li>平均日利用率c：<input type="text" name="avgUtilC"/></li>
+                            <li>
+                                <a class="btn btn-success btn-rounded btn-sm" onclick="generatePlan()"><i class="fa fa-cogs"></i>&nbsp;计划生成</a>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "fleet/flightplan/maintenance";
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                modalName: "计划维修方案",
+                columns: [
+                    {checkbox: true},
+                    {field: 'id', title: 'ID', visible: false},
+                    {field: 'aircraftNo', title: '飞机编号'},
+                    {field: 'publishDate', title: '公布日期'},
+                    {field: 'deadlineDate', title: '维修截至日期'},
+                    {field: 'jobcardNo', title: '工卡编号'},
+                    {field: 'manHour', title: '工时'}
+                ]
+            };
+            $.table.init(options);
+        });
+
+        function generatePlan() {
+            var data = $('#maintenance-form').serializeArray();
+            $.operate.post(prefix + "/generate", data, function(result) {
+                $.modal.msgSuccess(result.msg);
+                $.table.search();
+            });
+        }
+    </script>
+</body>
+</html>

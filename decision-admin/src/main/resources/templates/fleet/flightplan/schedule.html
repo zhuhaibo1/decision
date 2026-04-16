@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('航班计划')" />
+</head>
+<body class="gray-bg">
+    <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="schedule-form">
+                    <div class="select-list">
+                        <ul>
+                            <li>航班号：<input type="text" name="flightNo"/></li>
+                            <li>飞机号：<input type="text" name="aircraftNo"/></li>
+                            <li>起飞机场：<input type="text" name="depAirport"/></li>
+                            <li>到达机场：<input type="text" name="arrAirport"/></li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()"><i class="fa fa-plus"></i> 新增</a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()"><i class="fa fa-edit"></i> 修改</a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()"><i class="fa fa-remove"></i> 删除</a>
+                <a class="btn btn-info" onclick="$.table.importExcel()"><i class="fa fa-upload"></i> 导入</a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()"><i class="fa fa-download"></i> 导出</a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "fleet/flightplan/schedule";
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                importUrl: prefix + "/import",
+                modalName: "航班计划",
+                columns: [
+                    {checkbox: true},
+                    {field: 'id', title: 'ID', visible: false},
+                    {field: 'operator', title: '营运人'},
+                    {field: 'flightNo', title: '航班号'},
+                    {field: 'flightDate', title: '航班日期'},
+                    {field: 'depAirport', title: '起飞机场'},
+                    {field: 'arrAirport', title: '到达机场'},
+                    {field: 'base', title: '运营基地'},
+                    {field: 'planType', title: '排版机型'},
+                    {field: 'planDepTime', title: '计划起飞时间'},
+                    {field: 'planArrTime', title: '计划到达时间'},
+                    {field: 'flightType', title: '航班类型'},
+                    {field: 'flightStatus', title: '航班状态'},
+                    {field: 'aircraftNo', title: '飞机号'},
+                    {field: 'authType', title: '能力授权机型'},
+                    {field: 'estDepTime', title: '预计起飞时间'},
+                    {field: 'estArrTime', title: '预计到达时间'},
+                    {field: 'actDepTime', title: '实际起飞时间'},
+                    {field: 'actArrTime', title: '实际到达时间'}
+                ]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

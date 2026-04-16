@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('机队评估指标')" />
+</head>
+<body class="gray-bg">
+    <div class="container-div">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <span class="label label-success pull-right">本月</span>
+                        <h5>航班准点率</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins">92.5%</h1>
+                        <small>同比 +1.2%</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <span class="label label-info pull-right">本月</span>
+                        <h5>维修任务完成率</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins">98.1%</h1>
+                        <small>同比 +0.5%</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <span class="label label-primary pull-right">本月</span>
+                        <h5>飞机日利用率</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins">8.4 h</h1>
+                        <small>同比 -0.1 h</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <span class="label label-danger pull-right">本月</span>
+                        <h5>非例行任务占比</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins">5.3%</h1>
+                        <small>同比 -0.8%</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>机队评估明细</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>指标名称</th>
+                                    <th>目标值</th>
+                                    <th>实际值</th>
+                                    <th>状态</th>
+                                    <th>评估日期</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>航班准点率</td>
+                                    <td>≥ 90%</td>
+                                    <td>92.5%</td>
+                                    <td><span class="label label-success">达标</span></td>
+                                    <td>2026-04-15</td>
+                                </tr>
+                                <tr>
+                                    <td>维修任务完成率</td>
+                                    <td>≥ 95%</td>
+                                    <td>98.1%</td>
+                                    <td><span class="label label-success">达标</span></td>
+                                    <td>2026-04-15</td>
+                                </tr>
+                                <tr>
+                                    <td>飞机日利用率</td>
+                                    <td>≥ 8.0 h</td>
+                                    <td>8.4 h</td>
+                                    <td><span class="label label-success">达标</span></td>
+                                    <td>2026-04-15</td>
+                                </tr>
+                                <tr>
+                                    <td>非例行任务占比</td>
+                                    <td>≤ 8%</td>
+                                    <td>5.3%</td>
+                                    <td><span class="label label-success">达标</span></td>
+                                    <td>2026-04-15</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+</body>
+</html>

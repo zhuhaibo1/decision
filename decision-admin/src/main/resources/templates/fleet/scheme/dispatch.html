@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('机队维修计划调度')" />
+    <th:block th:include="include :: bootstrap-editable-css" />
+</head>
+<body class="gray-bg">
+    <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="dispatch-form">
+                    <div class="select-list">
+                        <ul>
+                            <li>飞机号：<input type="text" name="aircraftNo"/></li>
+                            <li>执行任务：<input type="text" name="taskName"/></li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: bootstrap-table-editable-js" />
+    <script th:inline="javascript">
+        var prefix = ctx + "fleet/scheme/dispatch";
+
+        function onEditableSave(field, row, oldValue, $el) {
+            $.operate.post(prefix + "/edit", row, function(result) {
+                $.modal.msgSuccess(result.msg);
+            });
+        }
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                showSearch: false,
+                showRefresh: false,
+                showToggle: false,
+                showColumns: false,
+                onEditableSave: onEditableSave,
+                columns: [
+                    {checkbox: true},
+                    {field: 'id', title: 'ID', visible: false},
+                    {field: 'aircraftNo', title: '飞机号'},
+                    {field: 'maintStartTime', title: '可维修区间开始时间'},
+                    {field: 'maintEndTime', title: '可维修区间结束时间'},
+                    {field: 'taskName', title: '执行任务'},
+                    {
+                        field: 'isDone',
+                        title: '是否完成任务',
+                        align: 'center',
+                        editable: {
+                            type: 'select',
+                            title: '是否完成',
+                            source: [{value: 0, text: '否'}, {value: 1, text: '是'}]
+                        }
+                    },
+                    {
+                        field: 'actFinishTime',
+                        title: '实际完成时间',
+                        align: 'center',
+                        editable: {
+                            type: 'text',
+                            title: '实际完成时间',
+                            emptytext: '点击编辑'
+                        }
+                    }
+                ]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

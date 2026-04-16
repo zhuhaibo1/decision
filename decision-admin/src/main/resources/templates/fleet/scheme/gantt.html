@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('机队生成计划甘特图')" />
+    <style>
+        .gantt-table th, .gantt-table td { text-align: center; vertical-align: middle; border: 1px solid #e7eaec; }
+        .gantt-table th { background: #f5f5f6; }
+        .gantt-cell { height: 36px; position: relative; }
+        .task-flight { background-color: #1ab394; }
+        .task-eomp { background-color: #f8ac59; }
+        .task-predict { background-color: #23c6c8; }
+        .task-nr1 { background-color: #ed5565; }
+        .task-nr2 { background-color: #1c84c6; }
+        .legend-item { display: inline-block; width: 14px; height: 14px; margin-right: 4px; vertical-align: middle; }
+    </style>
+</head>
+<body class="gray-bg">
+    <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="gantt-form">
+                    <div class="select-list">
+                        <ul>
+                            <li>飞机号：<input type="text" name="aircraftNo"/></li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="searchGantt()"><i class="fa fa-search"></i>&nbsp;查询</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>机队计划甘特图</h5>
+                        <div class="ibox-tools">
+                            <span><span class="legend-item task-flight"></span>飞行任务</span>
+                            <span style="margin-left:10px;"><span class="legend-item task-eomp"></span>EOMP任务</span>
+                            <span style="margin-left:10px;"><span class="legend-item task-predict"></span>预测任务</span>
+                            <span style="margin-left:10px;"><span class="legend-item task-nr1"></span>一类非例行</span>
+                            <span style="margin-left:10px;"><span class="legend-item task-nr2"></span>二类非例行</span>
+                        </div>
+                    </div>
+                    <div class="ibox-content" style="overflow-x:auto;">
+                        <table class="table gantt-table" id="gantt-table">
+                            <thead>
+                                <tr>
+                                    <th style="min-width:100px;">飞机号</th>
+                                    <th>Day 1</th>
+                                    <th>Day 2</th>
+                                    <th>Day 3</th>
+                                    <th>Day 4</th>
+                                    <th>Day 5</th>
+                                    <th>Day 6</th>
+                                    <th>Day 7</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>B-1234</td>
+                                    <td><div class="gantt-cell task-flight"></div></td>
+                                    <td><div class="gantt-cell task-flight"></div></td>
+                                    <td><div class="gantt-cell task-eomp"></div></td>
+                                    <td><div class="gantt-cell"></div></td>
+                                    <td><div class="gantt-cell task-predict"></div></td>
+                                    <td><div class="gantt-cell task-flight"></div></td>
+                                    <td><div class="gantt-cell task-flight"></div></td>
+                                </tr>
+                                <tr>
+                                    <td>B-5678</td>
+                                    <td><div class="gantt-cell task-flight"></div></td>
+                                    <td><div class="gantt-cell"></div></td>
+                                    <td><div class="gantt-cell task-nr1"></div></td>
+                                    <td><div class="gantt-cell task-flight"></div></td>
+                                    <td><div class="gantt-cell task-flight"></div></td>
+                                    <td><div class="gantt-cell task-nr2"></div></td>
+                                    <td><div class="gantt-cell"></div></td>
+                                </tr>
+                                <tr>
+                                    <td>B-9999</td>
+                                    <td><div class="gantt-cell"></div></td>
+                                    <td><div class="gantt-cell task-eomp"></div></td>
+                                    <td><div class="gantt-cell task-flight"></div></td>
+                                    <td><div class="gantt-cell task-flight"></div></td>
+                                    <td><div class="gantt-cell task-flight"></div></td>
+                                    <td><div class="gantt-cell"></div></td>
+                                    <td><div class="gantt-cell task-predict"></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "fleet/scheme/gantt";
+        function searchGantt() {
+            var params = $("#gantt-form").serialize();
+            $.ajax({
+                type: "GET",
+                url: prefix + "/list",
+                data: params,
+                success: function(result) {
+                    if (result.code == 0) {
+                        renderGantt(result.rows || result.data || []);
+                    } else {
+                        $.modal.msgError(result.msg);
+                    }
+                }
+            });
+        }
+        function renderGantt(data) {
+            // Placeholder: real implementation would build rows dynamically
+            $.modal.msgSuccess("甘特图数据已更新");
+        }
+    </script>
+</body>
+</html>
